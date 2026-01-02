@@ -8,7 +8,7 @@
 ---
 
 ## Demo / Screenshot
-- Demo: （後でGitHub Pages / VercelのURLを貼る）
+- Demo: https://toy-ec.vercel.app/
 - Screenshot: （画像を貼るなら `./docs` に保存して貼る）
 
 ---

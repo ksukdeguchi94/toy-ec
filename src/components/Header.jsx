@@ -32,6 +32,9 @@ function Header() {
                     <NavLink to="/products" className={navClass}>
                         Products
                     </NavLink>
+                    <NavLink to="/admin" className={navClass}>
+                        Admin
+                    </NavLink>
 
                     <Link
                         to="/cart"

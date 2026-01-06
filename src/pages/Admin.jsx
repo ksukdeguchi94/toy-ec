@@ -1,4 +1,6 @@
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
+import { seedIfEmpty, listInventory, deleteItem } from "../services/inventoryApi";
+import { PermissionError } from "../auth/permissions";
 
 const ROLES = ["admin", "staff", "viewer"];
 
@@ -10,6 +12,19 @@ const seed = [
 
 function Admin() {
   const [role, setRole] = useState("admin");
+  const [itemsSource, setItemsSource] = useState([]);
+  const [error, setError] = useState("");
+  const [loading, setLoading] = useState(true);
+
+useEffect(() => {
+  (async () => {
+    await seedIfEmpty(seed);
+    const data = await listInventory();
+    setItemsSource(data);
+    setLoading(false);
+  })();
+}, []);
+
   const [query, setQuery] = useState("");
   const [onlyLowStock, setOnlyLowStock] = useState(false);
 
@@ -19,7 +34,7 @@ function Admin() {
 
   const items = useMemo(() => {
     const q = query.trim().toLowerCase();
-    return seed
+    return itemSource
       .filter((i) =>
         q ? `${i.id} ${i.name}`.toLowerCase().includes(q) : true
       )
@@ -96,6 +111,12 @@ function Admin() {
         </div>
       </div>
 
+      {error && (
+        <div className="rounded-2xl border bg-red-50 p-4 text-sm font-semibold text-red-700">
+            {error}
+        </div>
+      )}
+
       {/* Table */}
       <div className="overflow-hidden rounded-3xl border bg-white shadow-sm">
         <div className="overflow-x-auto">
@@ -153,7 +174,20 @@ function Admin() {
                               ? "text-gray-900 hover:bg-gray-50"
                               : "text-gray-400 cursor-not-allowed"
                           }`}
-                          onClick={() => alert("adminのみ削除可能（次のステップで実装）")}
+                          onClick={async () => {
+                            setError("");
+                            try {
+                              const next = await deleteItem(role, i.id);
+                              setItemsSource(next);
+                            } catch (e) {
+                              if (e instanceof PermissionError) {
+                                setError("権限がありません（Deleteはadminのみ）");
+                              } else {
+                                setError("削除に失敗しました");
+                              }
+                            }
+                          }}
+                          
                         >
                           Delete
                         </button>

@@ -9,7 +9,7 @@
 
 ## Demo / Screenshot
 - Demo: https://toy-ec.vercel.app/
-- Screenshot: （画像を貼るなら `./docs` に保存して貼る）
+- Screenshot: 
 
 ---
 
@@ -23,6 +23,16 @@
   - カートを空にする
 - 合計金額 / 合計点数の表示
 - localStorage によるカート永続化（リロードしても状態保持）
+
+---
+
+## Admin Dashboard（業務UIデモ）
+- 在庫管理CRUD（作成/更新/削除）
+- ロール別権限（Admin/Staff/Viewer）
+- 検索・Low stock フィルタ
+- ステータス表示（OK / Low / Out）
+- 実務想定の管理画面をECと同一アプリで構築
+※ Admin画面はデモ用です。認証・権限はUI制御で再現しています。
 
 ---
 

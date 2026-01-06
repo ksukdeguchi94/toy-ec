@@ -34,7 +34,7 @@ useEffect(() => {
 
   const items = useMemo(() => {
     const q = query.trim().toLowerCase();
-    return itemSource
+    return itemsSource
       .filter((i) =>
         q ? `${i.id} ${i.name}`.toLowerCase().includes(q) : true
       )

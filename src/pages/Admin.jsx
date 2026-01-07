@@ -1,7 +1,7 @@
 import { useEffect, useMemo, useState } from "react";
 import { seedIfEmpty, listInventory, deleteItem, createItem, updateItem} from "../services/inventoryApi";
 import { PermissionError } from "../auth/permissions";
-import { InventoryModal } from "../components/InventoryModal";
+import InventoryModal from "../components/InventoryModal";
 
 
 const ROLES = ["admin", "staff", "viewer"];

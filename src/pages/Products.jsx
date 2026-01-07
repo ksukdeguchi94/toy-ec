@@ -1,7 +1,17 @@
 import { Link } from "react-router-dom";
 import { products } from "../data/products";
+import { useToast } from "../components/ToastProvider";
 
 function Products() {
+    const toast = useToast(); 
+    <button
+    onClick={() => {
+        addToCart(product);
+        toast.success("カートに追加しました");
+    }}
+    >
+    カートに追加
+    </button>
     return (
         <>
             <div className="mb-6">

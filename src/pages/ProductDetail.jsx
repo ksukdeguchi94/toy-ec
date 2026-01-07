@@ -25,6 +25,7 @@ function ProductDetail() {
         );
     }
 
+    const toast = useToast();
     const handleAdd = () => {
         addToCart(product);
         toast.success("カートに追加しました！");

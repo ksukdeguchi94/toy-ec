@@ -7,8 +7,9 @@
 
 ---
 
-## Demo / Screenshot
+## Demo
 - Demo: https://toy-ec.vercel.app/
+- Admin: https://toy-ec.vercel.app/admin
 
 ---
 ## Screenshots
@@ -43,7 +44,7 @@
 - 検索・Low stock フィルタ
 - ステータス表示（OK / Low / Out）
 - 実務想定の管理画面をECと同一アプリで構築
-※ Admin画面はデモ用です。認証・権限はUI制御で再現しています。
+※ Admin画面はデモ用です。認証は未実装ですが、権限はUIの出し分けに加えてサービス層（疑似API）でもチェックしています。
 
 ---
 
@@ -77,16 +78,28 @@ ECの基本導線に沿ってURLを設計しています。
 ---
 
 ## Folder Structure
-```txt
+
 src/
+  App.css
+  App.jsx
+  auth/
+    permissions.js
   components/
     Header.jsx
+    InventoryModal.jsx
+    ToastProvider.jsx
   context/
     CartContext.jsx
   data/
     products.js
   pages/
-    Home.jsx
-    Products.jsx
-    ProductDetail.jsx
+    Admin.jsx
     Cart.jsx
+    Home.jsx
+    ProductDetail.jsx
+    Products.jsx
+  services/
+    inventoryApi.js
+  assets/
+  index.css
+  main.jsx

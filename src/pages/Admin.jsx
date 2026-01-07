@@ -1,6 +1,8 @@
 import { useEffect, useMemo, useState } from "react";
-import { seedIfEmpty, listInventory, deleteItem } from "../services/inventoryApi";
+import { seedIfEmpty, listInventory, deleteItem, createItem, updateItem} from "../services/inventoryApi";
 import { PermissionError } from "../auth/permissions";
+import { InventoryModal } from "../components/InventoryModal";
+
 
 const ROLES = ["admin", "staff", "viewer"];
 
@@ -12,6 +14,9 @@ const seed = [
 
 function Admin() {
   const [role, setRole] = useState("admin");
+  const [modalOpen, setModalOpen] = useState(false);
+  const [modalMode, setModalMode] = useState("create"); // "create" | "edit"
+  const [selected, setSelected] = useState(null);
   const [itemsSource, setItemsSource] = useState([]);
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(true);
@@ -82,7 +87,13 @@ useEffect(() => {
                 ? "bg-gray-900 text-white hover:bg-black"
                 : "bg-gray-100 text-gray-400 cursor-not-allowed"
             }`}
-            onClick={() => alert("次のステップで追加モーダルを実装します")}
+            onClick={() => {
+              setError("");
+              setSelected(null);
+              setModalMode("create");
+              setModalOpen(true);
+            }}
+            
           >
             + Add Item
           </button>
@@ -162,7 +173,13 @@ useEffect(() => {
                               ? "text-gray-900 hover:bg-gray-50"
                               : "text-gray-400 cursor-not-allowed"
                           }`}
-                          onClick={() => alert("次のステップで編集モーダルを実装します")}
+                          onClick={() => {
+                            setError("");
+                            setSelected(i);
+                            setModalMode("edit");
+                            setModalOpen(true);
+                          }}
+                          
                         >
                           Edit
                         </button>
@@ -213,6 +230,34 @@ useEffect(() => {
           権限：Admin=CRUD / Staff=追加・編集 / Viewer=閲覧のみ
         </div>
       </div>
+      <InventoryModal
+  open={modalOpen}
+  mode={modalMode}
+  initialItem={selected}
+  onClose={() => setModalOpen(false)}
+  onSubmit={async (payload) => {
+    setError("");
+    try {
+      if (modalMode === "create") {
+        const next = await createItem(role, payload);
+        setItemsSource(next);
+      } else {
+        const next = await updateItem(role, selected.id, payload);
+        setItemsSource(next);
+      }
+      setModalOpen(false);
+    } catch (e) {
+      if (e instanceof PermissionError) {
+        setError("権限がありません");
+      } else if (e?.message === "DUPLICATE_SKU") {
+        setError("SKUが重複しています");
+      } else {
+        setError("保存に失敗しました");
+      }
+    }
+  }}
+/>
+
     </div>
   );
 }

@@ -4,13 +4,14 @@ import { BrowserRouter } from "react-router-dom";
 import App from "./App";
 import { CartProvider } from "./context/CartContext";
 import "./index.css";
-
+import { ToastProvider } from "./components/ToastProvider";
 
 ReactDOM.createRoot(document.getElementById("root")).render(
   <BrowserRouter>
-    <CartProvider>
-      <App />
-    </CartProvider>
+    <ToastProvider>
+      <CartProvider>
+        <App />
+      </CartProvider>
+    </ToastProvider>
   </BrowserRouter>
 );
-

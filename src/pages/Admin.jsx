@@ -2,7 +2,7 @@ import { useEffect, useMemo, useState } from "react";
 import { seedIfEmpty, listInventory, deleteItem, createItem, updateItem} from "../services/inventoryApi";
 import { PermissionError } from "../auth/permissions";
 import InventoryModal from "../components/InventoryModal";
-
+import { useToast } from "../components/ToastProvider";
 
 const ROLES = ["admin", "staff", "viewer"];
 
@@ -13,6 +13,7 @@ const seed = [
 ];
 
 function Admin() {
+  const toast = useToast();
   const [role, setRole] = useState("admin");
   const [modalOpen, setModalOpen] = useState(false);
   const [modalMode, setModalMode] = useState("create"); // "create" | "edit"
@@ -241,18 +242,20 @@ useEffect(() => {
       if (modalMode === "create") {
         const next = await createItem(role, payload);
         setItemsSource(next);
+        toast.success("追加しました！");
       } else {
         const next = await updateItem(role, selected.id, payload);
         setItemsSource(next);
+        toast.success("保存しました！");
       }
       setModalOpen(false);
     } catch (e) {
       if (e instanceof PermissionError) {
-        setError("権限がありません");
+        toast.error("権限がありません");
       } else if (e?.message === "DUPLICATE_SKU") {
-        setError("SKUが重複しています");
+        toast.warning("SKUが重複しています");
       } else {
-        setError("保存に失敗しました");
+        toast.error("保存に失敗しました");
       }
     }
   }}

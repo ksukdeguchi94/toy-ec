@@ -27,6 +27,7 @@ function ProductDetail() {
 
     const handleAdd = () => {
         addToCart(product);
+        toast.success("カートに追加しました！");
         setAdded(true);
         window.setTimeout(() => setAdded(false), 900);
     };

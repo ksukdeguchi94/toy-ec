@@ -1,17 +1,12 @@
 import { Link } from "react-router-dom";
 import { products } from "../data/products";
 import { useToast } from "../components/ToastProvider";
+import { useCart } from "../context/CartContext";
 
 function Products() {
-    const toast = useToast(); 
-    <button
-    onClick={() => {
-        addToCart(product);
-        toast.success("カートに追加しました");
-    }}
-    >
-    カートに追加
-    </button>
+    const toast = useToast();
+    const { addToCart } = useCart();
+    
     return (
         <>
             <div className="mb-6">
@@ -43,10 +38,23 @@ function Products() {
                         </div>
 
                         <div className="mt-3 flex items-center justify-between">
-                            <span className="text-sm font-semibold text-gray-900">
-                                ¥{p.price}
-                            </span>
-                            <span className="text-sm text-gray-600">View →</span>
+                            <span className="text-sm font-semibold text-gray-900">¥{p.price}</span>
+
+                            <div className="flex items-center gap-2">
+                                <button
+                                onClick={(e) => {
+                                    e.preventDefault(); // Linkの遷移を止める
+                                    e.stopPropagation();
+                                    addToCart(p);
+                                    toast.success("カートに追加しました");
+                                }}
+                                className="rounded-xl bg-gray-900 px-3 py-2 text-xs font-semibold text-white hover:bg-black transition"
+                                >
+                                カートに追加
+                                </button>
+
+                                <span className="text-sm text-gray-600">View →</span>
+                            </div>
                         </div>
                     </Link>
                 ))}

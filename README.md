@@ -9,7 +9,18 @@
 
 ## Demo / Screenshot
 - Demo: https://toy-ec.vercel.app/
-- Screenshot: 
+
+---
+## Screenshots
+
+### Products
+![Products](docs/products.png)
+
+### Product Detail
+![Product Detail](docs/product-detail.png)
+
+### Admin Dashboard
+![Admin Dashboard](docs/admin.png)
 
 ---
 

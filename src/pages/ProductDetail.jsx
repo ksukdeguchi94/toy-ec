@@ -2,6 +2,7 @@ import { useMemo, useState } from "react";
 import { useParams, Link } from "react-router-dom";
 import { products } from "../data/products";
 import { useCart } from "../context/CartContext";
+import { useToast } from "../components/ToastProvider";
 
 function ProductDetail() {
     const { id } = useParams();

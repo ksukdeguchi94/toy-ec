@@ -44,7 +44,7 @@ useEffect(() => {
         q ? `${i.id} ${i.name}`.toLowerCase().includes(q) : true
       )
       .filter((i) => (onlyLowStock ? i.stock > 0 && i.stock <= 3 : true));
-  }, [query, onlyLowStock]);
+  }, [itemsSource, query, onlyLowStock]);
 
   const badge = (r) => {
     if (r === "admin") return "bg-gray-900 text-white";

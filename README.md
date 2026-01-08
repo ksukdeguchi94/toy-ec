@@ -56,6 +56,7 @@
 - React Router
 - Context API（状態管理）
 - localStorage（永続化）
+- TypeScript（型定義、npm run typecheck）
 
 ---
 
